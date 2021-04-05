@@ -1,0 +1,264 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>jwplatform</name>
+    </assembly>
+    <members>
+        <member name="T:jwplatform.Api">
+            <summary>
+            Used to make JW Platform API calls.
+            </summary>
+            <see href="https://github.com/jwplayer/jwplatform-dotnet">
+            JW Platform Dotnet GitHub
+            </see>
+        </member>
+        <member name="M:jwplatform.Api.#ctor(System.String,System.String)">
+            <summary>
+            Constructor to instantiate Api with a <see cref="T:jwplatform.Client" /> to fulfill requests.
+            </summary>
+            <param name="apiKey"> A JW Platform API Key. </param>
+            <param name="apiSecret"> A JW Platform API Secret. </param>
+        </member>
+        <member name="M:jwplatform.Api.#ctor(jwplatform.Client)">
+            <summary>
+            Constructor that takes in a <see cref="T:jwplatform.Client" /> used for unit testing.
+            </summary>
+            <param name="client"> A <see cref="T:jwplatform.Client" /> used to fulfill requests. </param>
+        </member>
+        <member name="M:jwplatform.Api.GetRequest(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            The synchronous version of <see cref="M:jwplatform.Api.GetRequestAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String})" />.
+            </summary>
+        </member>
+        <member name="M:jwplatform.Api.GetRequestAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Executes a GET API request with <see cref="M:jwplatform.Api.MakeRequest(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)" />.
+            </summary>
+            <param name="requestPath"> A string representing the request path. </param>
+            <param name="requestParams">
+            A Dictionary of string keys and values of the request parameters. Set to null if there are none.
+            </param>
+            <returns> A JSON Object response. </returns>
+        </member>
+        <member name="M:jwplatform.Api.PostRequest(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            The synchronous version of <see cref="M:jwplatform.Api.PostRequestAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)" />.
+            </summary>
+        </member>
+        <member name="M:jwplatform.Api.PostRequestAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            Executes a POST API request with <see cref="M:jwplatform.Api.MakeRequest(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)" />.
+            </summary>
+            <param name="requestPath"> A string representing the request path. </param>
+            <param name="requestParams">
+            A Dictionary of string keys and values of the request parameters. Set to null if there are none.
+            </param>
+            <param name="hasBodyParams">
+            A boolean indicating whether the <paramref name="requestParams" /> are body or query parameters.
+            </param>
+            <returns> A JSON Object response. </returns>
+        </member>
+        <member name="M:jwplatform.Api.UploadRequest(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            The synchronous version of <see cref="M:jwplatform.Api.UploadRequestAsync(System.Collections.Generic.Dictionary{System.String,System.String},System.String)" />.
+            </summary>
+        </member>
+        <member name="M:jwplatform.Api.UploadRequestAsync(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            Used to upload a single video file. First a video is created via a POST request. An upload URL is
+            constructed with the video created response. The URL is then used to invoke the 
+            <see cref="M:jwplatform.Client.UploadAsync(System.String,System.String)" />.
+            </summary>
+            <param name="videoInfo">
+            A Dictionary of string keys and values with information about the file such as author, title, category, etc.
+            </param>
+            <param name="filePath"> A string representing the local path to the video file. </param>
+            <returns> A JSON Object response. </returns>
+        </member>
+        <member name="M:jwplatform.Api.MakeRequest(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            General method called by <see cref="M:jwplatform.Api.GetRequestAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String})" /> and
+            <see cref="M:jwplatform.Api.PostRequestAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)" />.
+            </summary>
+            <param name="requestType"> A string indicating the request tye (GET or POST). </param>
+            <param name="requestPath"> A string representing the request path. </param>
+            <param name="requestParams"> A Dictionary of string keys and values of the request parameters. </param>
+            <param name="hasBodyParams">
+            A boolean flag indicating if the <paramref name="requestParams" /> are body parameters (true)
+            or query string parameters (false).
+            </param>
+            <returns> A JSON object of the request response. </returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="requestPath" /> is null.
+            </exception>
+        </member>
+        <member name="M:jwplatform.Api.GetAsyncRequest(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Calls the Client's GetAsync method and validates it's response.
+            </summary>
+            <see cref="M:jwplatform.Client.GetAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String})"/>
+            <returns> The JSON response object. </returns>
+        </member>
+        <member name="M:jwplatform.Api.PostAsyncRequest(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            Calls the Client's PostAsync method and validates it's response.
+            </summary>
+            <see cref="M:jwplatform.Client.PostAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)"/>
+            <returns> The JSON response object. </returns>
+        </member>
+        <member name="M:jwplatform.Api.ValidateResponse(System.Net.Http.HttpResponseMessage)">
+            <summary>
+            Validates Client responses and returns if a request was successful.
+            </summary>
+            <param name="response"> An HttpResponseMessage. </param>
+            <returns> A JSON object of the <paramref name="response"/> content. </returns>
+            <exception cref="T:System.Exception">
+            Thrown when the response contains an unsuccessful status code.
+            </exception>
+        </member>
+        <member name="M:jwplatform.Api.ValidateUploadResponse(System.String)">
+            <summary>
+            Validates Client upload responses and returns if a request was successful.
+            </summary>
+            <param name="response"> An string representing a request response. </param>
+            <returns> A JSON object of the <paramref name="response"/>. </returns>
+            <exception cref="T:System.Exception">
+            Thrown when the response contains an unsuccessful status.
+            </exception>
+        </member>
+        <member name="M:jwplatform.Api.GetResult(System.Threading.Tasks.Task{Newtonsoft.Json.Linq.JObject})">
+            <summary>
+            Runs an asynchronous API task synchronously and returns the JSON object result.
+            </summary>
+            <param name="asyncRequestTask">
+            An asynchronous task that returns a JSON object to be run synchronously.
+            </param>
+            <returns> A JSON object result. </returns>
+        </member>
+        <member name="T:jwplatform.Client">
+            <summary>
+            Used to create a custom JW Platform HTTP Client.
+            </summary>
+        </member>
+        <member name="M:jwplatform.Client.#ctor(System.String,System.String)">
+            <summary>
+            Constructor used to create Client containing an HttpClient used to execute JW Platform API requests.
+            </summary>
+            <param name="apiKey"> A JW Platform API Key. </param>
+            <param name="apiSecret"> A JW Platform API Secret. </param>
+        </member>
+        <member name="M:jwplatform.Client.#ctor(System.String,System.String,System.Net.Http.HttpClient)">
+            <summary>
+            Constructor used for unit testing.
+            </summary>
+            <param name="apiKey"> A JW Platform API Key. </param>
+            <param name="apiSecret"> A JW Platform API Secret. </param>
+            <param name="httpClient"> An HttpClient. </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="apiKey" /> or <paramref name="apiSecret" /> is null.
+            </exception>
+        </member>
+        <member name="M:jwplatform.Client.GetAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Used to fulfill GET requests.
+            </summary>
+            <param name="requestPath"> A string representing the request route. </param>
+            <param name="requestParams"> A Dictionary of string keys and values of the request parameters. </param>
+            <returns> An HttpResponseMessage from the request. </returns>
+        </member>
+        <member name="M:jwplatform.Client.PostAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            Used to fulfill POST requests.
+            </summary>
+            <param name="requestPath"> A string representing the request route. </param>
+            <param name="requestParams"> A Dictionary of string keys and values of the request parameters. </param>
+            <param name="hasBodyParams">
+            A boolean indicating if the <paramref name="requestParams" /> are body or query parameters.
+            </param>
+            <returns> An HttpResponseMessage from the request. </returns>
+        </member>
+        <member name="M:jwplatform.Client.UploadAsync(System.String,System.String)">
+            <summary>
+            Used to fulfill Upload requests.
+            </summary>
+            <param name="uploadUrl"> A string representing the url to upload the file to. </param>
+            <param name="filePath"> A string representing the local video file path. </param>
+            <returns> A response string from the request. </returns>
+        </member>
+        <member name="M:jwplatform.Client.BuildQueryParams(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Alphabetically orders, encodes, and signs the <paramref name="requestParams" /> to be used
+            as query parameters for a JW Platform API request.
+            </summary>
+            <param name="requestParams"> A Dictionary of string keys and values of the request parameters. </param>
+            <returns> A string of query parameters. </returns>
+        </member>
+        <member name="M:jwplatform.Client.BuildBodyParams(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Alphabetically orders, encodes, and signs the <paramref name="requestParams" /> to be used
+            as body parameters for a JW Platform API request.
+            </summary>
+            <param name="requestParams"> A Dictionary of string keys and values of the request parameters. </param>
+            <returns> A SortedDictionary with string keys and values of body parameters. </returns>
+        </member>
+        <member name="M:jwplatform.Client.OrderParams(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Alphabetically orders the <paramref name="requestParams" /> and adds the default parameters
+            required for a JW Platform API request.
+            </summary>
+            <param name="requestParams"> A Dictionary of string keys and values of the request parameters. </param>
+            <returns> A SortedDictionary of <paramref name="requestParams" />. </returns>
+        </member>
+        <member name="M:jwplatform.Client.EncodeParams(System.Collections.Generic.SortedDictionary{System.String,System.String})">
+            <summary>
+            Encodes the <paramref name="orderedParams" /> to be compliant with the JW Platform API.
+            </summary>
+            <param name="orderedParams">
+            A SortedDictionary of string keys and values of request parameters.
+            </param>
+            <returns> An string of the encoded query parameters. </returns>
+        </member>
+        <member name="M:jwplatform.Client.GenerateApiSignature(System.String)">
+            <summary>
+            Generates a secure hash from the encoded request parameters to be used as the API Signature for the
+            JW Platform API request.
+            </summary>
+            <param name="encodedParams"> A string of the encoded request parameters. </param>
+            <returns> A string of the API Signature parameter. </returns>
+        </member>
+        <member name="T:jwplatform.ClientUtils">
+            <summary>
+            Contains helper functions used by the <see cref="T:jwplatform.Client" /> class.
+            </summary>
+        </member>
+        <member name="M:jwplatform.ClientUtils.GenerateNonce">
+            <summary>
+            Generates a random 8 digit number as a string.
+            </summary>
+            <returns> The 8 digit number as a string. </returns>
+        </member>
+        <member name="M:jwplatform.ClientUtils.GetCurrentTimeInSeconds">
+            <summary>
+            Gets the current UNIX timestamp in seconds.
+            </summary>
+            <returns> The seconds as an Int64. </returns>
+        </member>
+        <member name="M:jwplatform.ClientUtils.Encode(System.String)">
+            <summary>
+            Encodes <paramref name="stringToEncode" /> by converting characters to their hexadecimal representation.
+            </summary>
+            <see href="https://docs.microsoft.com/en-us/dotnet/api/system.uri.escapedatastring?view=netframework-4.8">
+            MSDN Docs - URI.EscapeDataString
+            </see>
+            <param name="stringToEncode"> A string to encode. </param>
+            <returns> <paramref name="stringToEncode" /> as an encoded string. </returns>
+        </member>
+        <member name="M:jwplatform.ClientUtils.GetSha1Hex(System.String)">
+            <summary>
+            Generates a secure hash from <paramref name="stringToHex" />.
+            </summary>
+            <param name="stringToHex"> A string to hash. </param>
+            <returns> The generated hash as a string. </returns>
+        </member>
+    </members>
+</doc>
